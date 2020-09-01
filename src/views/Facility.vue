@@ -107,7 +107,11 @@
                       </v-btn>
                     </template>
                     <template
-                      v-else-if="key.status === '1' || key.status === '2'"
+                      v-else-if="
+                        key.status === '1' ||
+                          key.status === '2' ||
+                          key.status === '4'
+                      "
                     >
                       <!-- 通常ボタン -->
                       <!-- TODO:通常ボタンは開錠状態と施錠状態の２種類作成する -->
@@ -207,29 +211,15 @@
 import Dialog from '../components/Dialog.vue';
 // firestore
 import { db } from '../plugins/firebase';
-// import firebase from '../plugins/firebase';
 import moment from 'moment';
 export default {
   components: { Dialog },
   data: () => ({
     fsAreas: [],
     fsParkings: [],
-    // areaMapList: [],
     benched: 0,
     selectedArea: { label: '丸の内', value: '001' },
-    areas: [
-      { label: '丸の内', value: '001' },
-      { label: '大手町', value: '002' },
-      { label: '神田', value: '003' },
-      { label: '麹町', value: '004' },
-    ],
     selectedParking: { label: '第一駐輪場', value: '001' },
-    parkings: [
-      { label: '第一駐輪場', value: '001' },
-      { label: '第二駐輪場', value: '002' },
-      { label: '第三駐輪場', value: '003' },
-      { label: '第四駐輪場', value: '004' },
-    ],
     // DBから取得した駐輪機のリスト
     keys: [],
     selectedKeys: [],
@@ -336,7 +326,6 @@ export default {
     // 仮のアイテム（リストの行数）作成
     // 10個で1行
     items() {
-      // return Array.from({ length: this.length }, (k, v) => v + 1);
       return Array.from(
         { length: Math.floor(this.keys.length / 10) + 1 },
         (k, v) => v + 1
